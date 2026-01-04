@@ -1,0 +1,51 @@
+package com.crealink.app.exceptions;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.crealink.app.dto.response.ResponseDto;
+import com.crealink.app.dto.response.ResponseStatus;
+
+import lombok.extern.slf4j.Slf4j;
+
+@RestControllerAdvice
+@Slf4j
+public class GlobalExceptionHandler {
+   @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ResponseDto<?>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        StringBuilder sb = new StringBuilder();
+        ex
+            .getBindingResult()
+            .getFieldErrors()
+            .forEach(error -> sb.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("; "));
+        ResponseDto<?> response = new ResponseDto<>(ResponseStatus.BAD_REQUEST, sb.toString().trim());
+        return new ResponseEntity<>(response, ResponseStatus.BAD_REQUEST.getHttpStatus());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ResponseDto<?>> handleGeneric(Exception ex) {
+        log.error(ex.getMessage());
+        ResponseDto<?> response = new ResponseDto<>(ResponseStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        return new ResponseEntity<>(response, ResponseStatus.INTERNAL_SERVER_ERROR.getHttpStatus());
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ResponseDto<?>> handleUnauthorizedException(UnauthorizedException ex) {
+        ResponseDto<?> response = new ResponseDto<>(ResponseStatus.UNAUTHORIZED, ex.getMessage());
+        return new ResponseEntity<>(response, ResponseStatus.UNAUTHORIZED.getHttpStatus());
+    }
+
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    public ResponseEntity<ResponseDto<?>> handleResourceAlreadyExistsException(ResourceAlreadyExistsException ex) {
+        ResponseDto<?> response = new ResponseDto<>(ResponseStatus.CONFLICT, ex.getMessage());
+        return new ResponseEntity<>(response, ResponseStatus.CONFLICT.getHttpStatus());
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ResponseDto<?>> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        ResponseDto<?> response = new ResponseDto<>(ResponseStatus.NOT_FOUND, ex.getMessage());
+        return new ResponseEntity<>(response, ResponseStatus.NOT_FOUND.getHttpStatus());
+    }
+}
