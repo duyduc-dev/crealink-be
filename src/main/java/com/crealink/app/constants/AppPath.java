@@ -6,5 +6,6 @@ public interface AppPath {
   String AUTH_API = API_V1 + "/auth";
   String AUTH_LOGIN = "/login";
   String AUTH_SIGNUP = "/signup";
+  String AUTH_LOGOUT = "/logout";
   String AUTH_ME = "/me";
 }

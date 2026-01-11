@@ -7,8 +7,11 @@ public class UnauthorizedException extends ApiException {
         super(message);
     }
 
+    public UnauthorizedException(ResponseStatus status) {
+        super(status.getMessage());
+    }
+
     public UnauthorizedException() {
         super(ResponseStatus.UNAUTHORIZED.getMessage());
     }
 }
-

@@ -50,26 +50,40 @@ public class AuthController {
                 .header(HeadersKey.SET_COOKIE, cookie.toString())
                 .body(new ResponseDto<>("Signup successful"));
     }
-    
+
     @PostMapping(AppPath.AUTH_LOGIN)
     public ResponseEntity<ResponseDto<?>> login(@RequestBody @Valid SignInRequestDto request) {
-            SignInResponseDto response = authService.signIn(request);
-            String jwt = response.accessToken();
-            ResponseCookie cookie = ResponseCookie.from(CookiesKey.ACCESS_TOKEN, jwt)
-                        .httpOnly(true)
-                        .secure(true)
-                        .path("/")
-                        .sameSite("Strict")
-                        .maxAge(Duration.ofMillis(appConfigValue.getExpireTime()))
-                        .build();
+        SignInResponseDto response = authService.signIn(request);
+        String jwt = response.accessToken();
+        ResponseCookie cookie = ResponseCookie.from(CookiesKey.ACCESS_TOKEN, jwt)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .sameSite("Strict")
+                .maxAge(Duration.ofMillis(appConfigValue.getExpireTime()))
+                .build();
 
-            return ResponseEntity.ok()
-                        .header(HeadersKey.SET_COOKIE, cookie.toString())
-                        .body(new ResponseDto<>("Login successful"));
+        return ResponseEntity.ok()
+                .header(HeadersKey.SET_COOKIE, cookie.toString())
+                .body(new ResponseDto<>("Login successful"));
     }
 
     @GetMapping(AppPath.AUTH_ME)
     public ResponseEntity<ResponseDto<?>> getCurrentSession(@AuthSession AuthUser user) {
         return ResponseEntity.ok(new ResponseDto<>(user.getCurrentUser()));
+    }
+
+    @PostMapping(AppPath.AUTH_LOGOUT)
+    public ResponseEntity<ResponseDto<?>> logout() {
+        ResponseCookie cookie = ResponseCookie.from(CookiesKey.ACCESS_TOKEN, "")
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .sameSite("Strict")
+                .maxAge(0)
+                .build();
+        return ResponseEntity.ok()
+                .header(HeadersKey.SET_COOKIE, cookie.toString())
+                .body(new ResponseDto<>("Logout successful"));
     }
 }
