@@ -57,4 +57,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmailOrUsername(username, username, SystemStatus.ACTIVE);
     }
 
+    @Override
+    public Boolean checkUsernameAvailability(String username) {
+      boolean isExisting = userRepository.existsByUsername(username);
+      return !isExisting;
+    }
+
 }

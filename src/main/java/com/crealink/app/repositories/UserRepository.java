@@ -16,6 +16,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByExternalIdAndSystemStatus(UUID externalId, SystemStatus systemStatus);
 
     boolean existsByUsernameOrEmail(String username, String email);
+
+    boolean existsByUsername(String username);
     
     @Query("SELECT u FROM User u WHERE (u.email = :email OR u.username = :username) AND u.systemStatus = :systemStatus")
     Optional<User> findByEmailOrUsername(

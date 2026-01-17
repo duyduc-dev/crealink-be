@@ -32,4 +32,11 @@ public interface UserService {
    * @return Optional<User>
    */
   Optional<User> findByEmailOrUsername(String username);
+
+  /**
+   * Check username availability
+   * @param username
+   * @return 
+   */
+  Boolean checkUsernameAvailability(String username);
 }

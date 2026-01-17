@@ -8,4 +8,7 @@ public interface AppPath {
   String AUTH_SIGNUP = "/signup";
   String AUTH_LOGOUT = "/logout";
   String AUTH_ME = "/me";
+
+  String USER_API = API_V1 + "/users";
+  String USERNAME_AVAILABILITY = "/username-availability";
 }

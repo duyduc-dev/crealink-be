@@ -11,6 +11,8 @@ public enum ResponseStatus {
     OK("200000", "Success", HttpStatus.OK),
 
     BAD_REQUEST("400000", "Bad Request", HttpStatus.BAD_REQUEST),
+    VALIDATE_FAILED("400001", "Validate failed", HttpStatus.BAD_REQUEST),
+
     CONFLICT("409000", "Conflict", HttpStatus.CONFLICT),
     NOT_FOUND("404000", "Resource Not Found", HttpStatus.NOT_FOUND),
 

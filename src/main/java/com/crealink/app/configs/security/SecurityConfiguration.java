@@ -84,7 +84,8 @@ public class SecurityConfiguration {
                         "/configuration/security",
                         "/manage/api-docs",
                         "/v3/api-docs",
-                        "/v3/api-docs/*"
+                        "/v3/api-docs/*",
+                        AppPath.USER_API + AppPath.USERNAME_AVAILABILITY
                     )
                     .permitAll()
                     .requestMatchers(
