@@ -4,14 +4,14 @@ import com.crealink.app.dto.response.ResponseStatus;
 
 public class UnauthorizedException extends ApiException {
     public UnauthorizedException(String message) {
-        super(message);
+        super(ResponseStatus.UNAUTHORIZED, message);
     }
 
     public UnauthorizedException(ResponseStatus status) {
-        super(status.getMessage());
+        super(status);
     }
 
     public UnauthorizedException() {
-        super(ResponseStatus.UNAUTHORIZED.getMessage());
+        super(ResponseStatus.UNAUTHORIZED);
     }
 }

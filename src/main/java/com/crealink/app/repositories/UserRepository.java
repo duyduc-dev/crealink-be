@@ -15,7 +15,7 @@ import com.crealink.app.enums.SystemStatus;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByExternalIdAndSystemStatus(UUID externalId, SystemStatus systemStatus);
 
-    boolean existsByUsernameOrEmail(String username, String email);
+    boolean existsByEmail(String email);
 
     boolean existsByUsername(String username);
     

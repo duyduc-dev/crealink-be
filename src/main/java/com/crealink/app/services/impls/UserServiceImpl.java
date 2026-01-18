@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.crealink.app.dto.response.ResponseStatus;
 import com.crealink.app.dto.user.UserDto;
 import com.crealink.app.entities.User;
 import com.crealink.app.enums.SystemStatus;
@@ -31,9 +32,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto createUser(UserDto user, PasswordEncoder passwordEncoder) {
-      if (existsByUsernameOrEmail(user.username(), user.email())) {
-        throw new ResourceAlreadyExistsException("Username or Email already exists");
+      if (existsByEmail(user.email())) {
+        throw new ResourceAlreadyExistsException(ResponseStatus.EMAIL_ALREADY_EXISTS);
       }
+      if (userRepository.existsByUsername(user.username())) {
+        throw new ResourceAlreadyExistsException(ResponseStatus.USERNAME_EXISTS);
+      }
+      
       User newUser = userMapper.toEntity(user);
 
       String[] password = PasswordUtil.generatePasswordHash(passwordEncoder, user.password());
@@ -48,10 +53,6 @@ public class UserServiceImpl implements UserService {
       return userMapper.toDto(newUser);
     }
     
-    private boolean existsByUsernameOrEmail(String username, String email) {
-        return userRepository.existsByUsernameOrEmail(username, email);
-    }
-
     @Override
     public Optional<User> findByEmailOrUsername(String username) {
         return userRepository.findByEmailOrUsername(username, username, SystemStatus.ACTIVE);
@@ -61,6 +62,10 @@ public class UserServiceImpl implements UserService {
     public Boolean checkUsernameAvailability(String username) {
       boolean isExisting = userRepository.existsByUsername(username);
       return !isExisting;
+    }
+
+    private boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 
 }

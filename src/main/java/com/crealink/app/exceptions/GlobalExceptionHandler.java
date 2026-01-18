@@ -48,19 +48,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ResponseDto<?>> handleUnauthorizedException(UnauthorizedException ex) {
-        ResponseDto<?> response = new ResponseDto<>(ResponseStatus.UNAUTHORIZED, ex.getMessage());
-        return new ResponseEntity<>(response, ResponseStatus.UNAUTHORIZED.getHttpStatus());
+        ResponseDto<?> response = new ResponseDto<>(ex.getResponseStatus(), ex.getMessage());
+        return new ResponseEntity<>(response, ex.getResponseStatus().getHttpStatus());
     }
 
     @ExceptionHandler(ResourceAlreadyExistsException.class)
     public ResponseEntity<ResponseDto<?>> handleResourceAlreadyExistsException(ResourceAlreadyExistsException ex) {
-        ResponseDto<?> response = new ResponseDto<>(ResponseStatus.CONFLICT, ex.getMessage());
-        return new ResponseEntity<>(response, ResponseStatus.CONFLICT.getHttpStatus());
+        ResponseDto<?> response = new ResponseDto<>(ex.getResponseStatus(), ex.getMessage());
+        return new ResponseEntity<>(response, ex.getResponseStatus().getHttpStatus());
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ResponseDto<?>> handleResourceNotFoundException(ResourceNotFoundException ex) {
-        ResponseDto<?> response = new ResponseDto<>(ResponseStatus.NOT_FOUND, ex.getMessage());
-        return new ResponseEntity<>(response, ResponseStatus.NOT_FOUND.getHttpStatus());
+        ResponseDto<?> response = new ResponseDto<>(ex.getResponseStatus(), ex.getMessage());
+        return new ResponseEntity<>(response, ex.getResponseStatus().getHttpStatus());
     }
 }

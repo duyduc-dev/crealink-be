@@ -14,6 +14,9 @@ public enum ResponseStatus {
     VALIDATE_FAILED("400001", "Validate failed", HttpStatus.BAD_REQUEST),
 
     CONFLICT("409000", "Conflict", HttpStatus.CONFLICT),
+    EMAIL_ALREADY_EXISTS("409001", "Email already exists", HttpStatus.CONFLICT),
+    USERNAME_EXISTS("409002", "Username already exists", HttpStatus.CONFLICT),
+
     NOT_FOUND("404000", "Resource Not Found", HttpStatus.NOT_FOUND),
 
     UNAUTHORIZED("401000", "Unauthorized or Access Token is expired.", HttpStatus.UNAUTHORIZED),
